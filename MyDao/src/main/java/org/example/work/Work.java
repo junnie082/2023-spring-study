@@ -2,22 +2,26 @@ package org.example.work;
 
 import org.example.dao.MyListDao;
 import org.example.domain.*;
-import org.example.view.*;
 
 public class Work {
     
     Person person = new Person();
-    private int workType;
 
-    //Work work = new Work(); 
-    // 이걸 메서드 밖에서 하면 클래스가 무한 호출 되는 듯함. 
+    private static String nameOfDB;
+    private static int workType;   
+
+    public void setNameOfDB(String nameOfDB) {
+        this.nameOfDB = nameOfDB;
+    }
+
+    public void setWorkType(int workType) {
+        this.workType = workType;
+    }
+
     public void startWorking() {
         // SAVE: 1, FIND: 2, UPDATE: 3, DELETE: 4
-        InputView inputView = new InputView(); 
-        String typeOfDB = inputView.getNameOfDB();
-        int workType = inputView.getWorkType();
         Work work = new Work(); 
-        if (typeOfDB.equals("LIST")) {  // == 과 equals 는 엄연히 다르다는 것. 
+        if (this.nameOfDB.equals("LIST")) {  // == 과 equals 는 엄연히 다르다는 것. 
             work.workAsList(workType);
         }
         // } else if (typeOfDB == "MAP") {
@@ -28,16 +32,12 @@ public class Work {
     private void workAsList(int workType) {
         MyListDao myListDao = new MyListDao();
         if (workType == 1) {
-            System.out.print("SAVE");
             myListDao.save();
         } else if (workType == 2) {
-            System.out.print("FIND");
             myListDao.find(); 
         } else if (workType == 3) {
-            System.out.print("UPDATE");
             myListDao.update();
         } else if (workType == 4) {
-            System.out.print("DELETE");
             myListDao.delete();
         }
     }
